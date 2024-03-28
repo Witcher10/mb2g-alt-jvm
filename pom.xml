@@ -11,7 +11,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>11</java.version>
+        <java.version>21</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
@@ -19,8 +19,8 @@
     <dependencies>
         <dependency>
             <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-            <version>2.11.7</version>
+            <artifactId>scala3-library_3</artifactId>
+            <version>3.4.0</version>
         </dependency>
     </dependencies>
 
@@ -30,12 +30,16 @@
                 <plugin>
                     <groupId>net.alchim31.maven</groupId>
                     <artifactId>scala-maven-plugin</artifactId>
-                    <version>3.4.4</version>
+                    <version>4.8.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.0.2</version>
+                    <version>3.13.0</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -43,6 +47,24 @@
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
+                <configuration>
+                    <launchers>
+                        <launcher>
+                            <id>main-class</id>
+                            <mainClass>HelloWorld</mainClass>
+                            <!-- args are optional -->
+                           <!-- <args>
+                                <arg>arg1</arg>
+                            </args>
+                            &lt;!&ndash; jvmArgs are optional &ndash;&gt;
+                            <jvmArgs>
+                                <jvmArg>-Xmx128m</jvmArg>
+                                <jvmArg>-Djava.library.path=...</jvmArg>
+                            </jvmArgs>-->
+                        </launcher>
+                        <!-- you could define other launcher -->
+                    </launchers>
+                </configuration>
                 <executions>
                     <execution>
                         <id>scala-compile-first</id>
@@ -64,6 +86,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>compile</phase>
@@ -72,6 +98,19 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>HelloWorld</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>
